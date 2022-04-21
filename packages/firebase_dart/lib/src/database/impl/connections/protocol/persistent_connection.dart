@@ -38,7 +38,7 @@ class PersistentConnectionImpl extends PersistentConnection
 
   Duration? _serverTimeDiff;
 
-  FutureOr<Request>? _authRequest;
+  Request? _authRequest;
 
   DateTime? _lastConnectionEstablishedTime;
 
@@ -263,14 +263,19 @@ class PersistentConnectionImpl extends PersistentConnection
     } else if (token is String) {
       _authRequest = Request.auth(token);
     } else {
-      _authRequest = token.then<Request>((v) => Request.auth(v));
+      _authRequest = Request.auth(await token);
     }
     if (_connected()) {
       if (token != null) {
+        _logger.fine('Upgrading auth');
         await _upgradeAuth();
       } else {
+        _logger.fine('Unauth');
+
         await _sendUnauth();
       }
+    } else {
+      _logger.fine('Not Connected');
     }
   }
 
@@ -284,11 +289,15 @@ class PersistentConnectionImpl extends PersistentConnection
     assert(_connected(),
         'Must be connected to send auth, but was: $connectionState');
     assert(_authRequest != null, 'Auth token must be set to authenticate!');
-
-    var response = await _request(await _authRequest!, forceQueue: true);
-
+    MessageBody response;
+    // try {
+    //   _logger.fine('Working on request for auth');
+    response = await _request(await _authRequest!, forceQueue: true);
     _connectionState = ConnectionState.connected;
-
+    //   _logger.fine('Success on request for auth');
+    // } catch (e) {
+    //   response = MessageBody(status: 'fail', data: '$e');
+    // }
     if (response.status == 'ok') {
       _invalidAuthTokenCount = 0;
 
@@ -556,6 +565,7 @@ class PersistentConnectionImpl extends PersistentConnection
           'Not in disconnected state: $connectionState');
       _logger.fine('Scheduling connection attempt');
       final forceRefresh = _forceAuthTokenRefresh;
+      // TODO: Force refresh when token expires
       _forceAuthTokenRefresh = false;
       _retryHelper.retry(() async {
         _logger.fine('Trying to fetch auth token');
