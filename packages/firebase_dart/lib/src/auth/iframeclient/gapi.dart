@@ -8,9 +8,9 @@ external void load(String libraries, LoadConfig config);
 
 @JS()
 extension type LoadConfig._(JSObject _) implements JSObject {
-  external LoadConfig({Function callback, Function onerror, num timeout, Function ontimeout});
-  external Function get callback;
-  external Function get onerror;
+  external LoadConfig({JSFunction callback, JSFunction onerror, num timeout, JSFunction ontimeout});
+  external JSFunction get callback;
+  external JSFunction get onerror;
   external num get timeout;
-  external Function get ontimeout;
+  external JSFunction get ontimeout;
 }

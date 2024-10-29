@@ -134,8 +134,8 @@ class IframeWrapper {
         gapi.load(
             'gapi.iframes',
             gapi.LoadConfig(
-                callback: completer.complete,
-                ontimeout: () {
+                callback: completer.complete.toJS,
+                ontimeout: (() {
                   // The above reset may be sufficient, but having this reset after
                   // failure ensures that if the developer calls gapi.load after the
                   // connection is re-established and before another attempt to embed
@@ -144,7 +144,7 @@ class IframeWrapper {
                   // Timeout when gapi.iframes.Iframe not loaded.
                   // TODO: fireauth.util.resetUnloadedGapiModules();
                   completer.completeError(Exception('Network Error'));
-                },
+                }).toJS,
                 timeout: 30000));
       }
 
