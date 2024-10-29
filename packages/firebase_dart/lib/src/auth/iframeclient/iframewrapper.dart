@@ -47,7 +47,7 @@ class IframeWrapper {
                     // ..height = '1px'),
               ),
               dontclear: true), 
-        (iframe) {
+        ((iframe) {
           _iframe = iframe;
           _iframe.restyle(gapi.IframeRestyleOptions(
               // Prevent iframe from closing on mouse out.
@@ -62,7 +62,7 @@ class IframeWrapper {
               .then((_) => completer.complete(), onError: (error) {
             completer.completeError(Exception('Network Error'));
           });
-        },
+        }).toJS,
       );
       return completer.future.then((_) => print('completed'));
     });
@@ -72,7 +72,7 @@ class IframeWrapper {
     return _onIframeOpen.then((_) {
       var completer = Completer<Map<String, dynamic>?>();
 
-      _iframe.send(message.type, message, completer.complete,
+      _iframe.send(message.type, message, completer.complete.toJS,
           gapi.CROSS_ORIGIN_IFRAMES_FILTER);
       return completer.future;
     });
