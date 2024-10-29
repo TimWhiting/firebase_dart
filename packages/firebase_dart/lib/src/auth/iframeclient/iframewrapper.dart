@@ -47,7 +47,7 @@ class IframeWrapper {
                     // ..height = '1px'),
               ),
               dontclear: true), 
-        ((iframe) {
+        ((Iframe iframe) {
           _iframe = iframe;
           _iframe.restyle(gapi.IframeRestyleOptions(
               // Prevent iframe from closing on mouse out.
@@ -72,7 +72,7 @@ class IframeWrapper {
     return _onIframeOpen.then((_) {
       var completer = Completer<Map<String, dynamic>?>();
 
-      _iframe.send(message.type, message, completer.complete.toJS,
+      _iframe.send(message.type, message, (() => completer.complete()).toJS,
           gapi.CROSS_ORIGIN_IFRAMES_FILTER);
       return completer.future;
     });
@@ -82,7 +82,7 @@ class IframeWrapper {
   void registerEvent(String eventName,
       IframeEventHandlerResponse Function(IframeEvent) handler) {
     _onIframeOpen.then((_) {
-      var h = _handlers[handler] ??= ((event, iframe) {
+      var h = _handlers[handler] ??= ((IframeEvent event, Iframe iframe) {
         return handler(event);
       }).toJS;
       _iframe.register(
@@ -134,7 +134,7 @@ class IframeWrapper {
         gapi.load(
             'gapi.iframes',
             gapi.LoadConfig(
-                callback: completer.complete.toJS,
+                callback: (() => completer.complete()).toJS,
                 ontimeout: (() {
                   // The above reset may be sufficient, but having this reset after
                   // failure ensures that if the developer calls gapi.load after the
@@ -162,7 +162,7 @@ class IframeWrapper {
         // timeout.
         var cbName = '__iframefcb${_random.nextInt(1000000)}';
         // GApi loader not available, dynamically load platform.js.
-        window.setProperty(cbName.toJS, (() {
+        globalContext.setProperty(cbName.toJS, (() {
           // GApi loader should be ready.
           if (util.getObjectRef('gapi.load') != null) {
             onGapiLoad();
@@ -188,8 +188,8 @@ class IframeWrapper {
   }
 }
 
-class Message {
-  final String type;
-
-  Message({required this.type});
+@JS()
+extension type  Message._(JSObject _) implements JSObject {
+  external String get type;
+  external Message({required String type});
 }

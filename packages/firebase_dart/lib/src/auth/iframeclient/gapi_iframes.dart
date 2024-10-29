@@ -17,7 +17,7 @@ extension type Iframe(JSObject _) implements JSObject  {
   external void restyle(IframeRestyleOptions parameters);
 
   external void send(
-      String type, dynamic data, JSFunction onDone, IframesFilter filter);
+      String type, JSObject data, JSFunction onDone, IframesFilter filter);
 
   external void register(String eventName, IframeEventHandler callback,
       [IframesFilter filter]);
@@ -88,7 +88,7 @@ extension type IframeAuthEvent(JSObject _) implements JSObject  {
 
 @JS()
 @anonymous
-abstract class IframeError {
+extension type IframeError(JSObject _) implements JSObject {
   external String code;
 
   external String message;
@@ -96,15 +96,15 @@ abstract class IframeError {
 
 @JS()
 @anonymous
-abstract class IframeOptions {
+extension type IframeOptions._(JSObject _) implements JSObject {
   external String get url;
   external HTMLElement? get where;
   external IframeAttributes? get attributes;
   external IframesFilter? messageHandlersFilter;
   external bool? dontclear;
 
-  external factory IframeOptions(
-      {String url,
+  external IframeOptions(
+      {required String url,
       HTMLElement? where,
       IframeAttributes? attributes,
       IframesFilter? messageHandlersFilter,
@@ -115,4 +115,4 @@ abstract class IframeOptions {
 external IframesFilter get CROSS_ORIGIN_IFRAMES_FILTER;
 
 @JS()
-abstract class IframesFilter {}
+extension type IframesFilter(JSObject _) implements JSObject {}

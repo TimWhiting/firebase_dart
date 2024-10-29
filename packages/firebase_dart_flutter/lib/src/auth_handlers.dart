@@ -16,7 +16,7 @@ import 'package:flutter_apns_only/flutter_apns_only.dart';
 import 'package:crypto/crypto.dart';
 
 class FacebookAuthHandler extends DirectAuthHandler {
-  FacebookAuthHandler() : super(FacebookAuthProvider.PROVIDER_ID);
+  FacebookAuthHandler() : super(FacebookAuthProvider.id);
 
   @override
   Future<void> signOut(FirebaseApp app, User user) async {
@@ -43,7 +43,7 @@ class FacebookAuthHandler extends DirectAuthHandler {
 }
 
 class GoogleAuthHandler extends DirectAuthHandler {
-  GoogleAuthHandler() : super(GoogleAuthProvider.PROVIDER_ID);
+  GoogleAuthHandler() : super(GoogleAuthProvider.id);
 
   @override
   Future<void> signOut(FirebaseApp app, User user) async {
