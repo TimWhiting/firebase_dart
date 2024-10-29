@@ -17,7 +17,7 @@ import 'package:crypto/crypto.dart';
 import 'package:app_links/app_links.dart';
 
 class FacebookAuthHandler extends DirectAuthHandler {
-  FacebookAuthHandler() : super(FacebookAuthProvider.PROVIDER_ID);
+  FacebookAuthHandler() : super(FacebookAuthProvider.id);
 
   @override
   Future<void> signOut(FirebaseApp app, User user) async {
@@ -44,7 +44,7 @@ class FacebookAuthHandler extends DirectAuthHandler {
 }
 
 class GoogleAuthHandler extends DirectAuthHandler {
-  GoogleAuthHandler() : super(GoogleAuthProvider.PROVIDER_ID);
+  GoogleAuthHandler() : super(GoogleAuthProvider.id);
 
   @override
   Future<void> signOut(FirebaseApp app, User user) async {
