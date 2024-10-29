@@ -17,7 +17,7 @@ extension type Iframe(JSObject _) implements JSObject  {
   external void restyle(IframeRestyleOptions parameters);
 
   external void send(
-      String type, dynamic data, Function onDone, IframesFilter filter);
+      String type, dynamic data, JSFunction onDone, IframesFilter filter);
 
   external void register(String eventName, IframeEventHandler callback,
       [IframesFilter filter]);
@@ -28,7 +28,7 @@ extension type Iframe(JSObject _) implements JSObject  {
 extension type Context(JSObject _) implements JSObject {
   external void openChild(IframeOptions options);
 
-  external void open(IframeOptions options, [Function(Iframe) onOpen]);
+  external void open(IframeOptions options, [JSFunction onOpen]); // Function(IFrame)
 }
 
 @JS()
