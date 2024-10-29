@@ -3,16 +3,16 @@
 @JS('gapi.iframes')
 library gapi.iframes;
 
-import 'dart:html';
+import 'package:web/web.dart';
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 @JS()
 external Context getContext();
 
 @JS()
-class Iframe {
-  external IThenable ping();
+extension type Iframe(JSObject _) implements JSObject  {
+  external JSPromise ping();
 
   external void restyle(IframeRestyleOptions parameters);
 
@@ -25,51 +25,45 @@ class Iframe {
 }
 
 @JS()
-@anonymous
-abstract class Context {
+extension type Context(JSObject _) implements JSObject {
   external void openChild(IframeOptions options);
 
   external void open(IframeOptions options, [Function(Iframe) onOpen]);
 }
 
 @JS()
-@anonymous
-abstract class IframeAttributes {
-  external CssStyleDeclaration? style;
+extension type IframeAttributes._(JSObject _) implements JSObject {
+  external CSSStyleDeclaration? get style;
 
-  external factory IframeAttributes({CssStyleDeclaration? style});
+  external IframeAttributes({CSSStyleDeclaration style});
 }
 
 @JS()
-@anonymous
-abstract class IframeRestyleOptions {
-  external bool? setHideOnLeave;
+extension type IframeRestyleOptions._(JSObject _) implements JSObject {
+  external bool? get setHideOnLeave;
 
-  external factory IframeRestyleOptions({bool? setHideOnLeave});
+  external IframeRestyleOptions({bool? setHideOnLeave});
 }
 
 @JS()
-@anonymous
-abstract class IframeEvent {
+extension type IframeEvent(JSObject _) implements JSObject {
   external String type;
 
   external IframeAuthEvent? authEvent;
 }
 
 @JS()
-@anonymous
-abstract class IframeEventHandlerResponse {
-  external String status;
+extension type IframeEventHandlerResponse._(JSObject _) implements JSObject {
+  external String get status;
 
-  external factory IframeEventHandlerResponse({String status});
+  external IframeEventHandlerResponse({String status});
 }
 
-typedef IframeEventHandler = IframeEventHandlerResponse Function(
-    IframeEvent, Iframe);
+typedef IframeEventHandler = JSFunction; // IframeEventHandlerResponse Function(IframeEvent, Iframe);
 
 @JS()
 @anonymous
-abstract class IframeAuthEvent {
+extension type IframeAuthEvent(JSObject _) implements JSObject  {
   external String? eventId;
 
   external String? postBody;
@@ -99,23 +93,17 @@ abstract class IframeError {
 @anonymous
 abstract class IframeOptions {
   external String get url;
-  external HtmlElement? get where;
+  external HTMLElement? get where;
   external IframeAttributes? get attributes;
   external IframesFilter? messageHandlersFilter;
   external bool? dontclear;
 
   external factory IframeOptions(
       {String url,
-      HtmlElement? where,
+      HTMLElement? where,
       IframeAttributes? attributes,
       IframesFilter? messageHandlersFilter,
       bool? dontclear});
-}
-
-@JS()
-@anonymous
-abstract class IThenable {
-  external void then(Function callback, Function onError);
 }
 
 @JS()
