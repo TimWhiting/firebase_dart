@@ -25,6 +25,7 @@ extension type Iframe(JSObject _) implements JSObject  {
 }
 
 @JS()
+@anonymous
 extension type Context(JSObject _) implements JSObject {
   external void openChild(IframeOptions options);
 
@@ -32,6 +33,7 @@ extension type Context(JSObject _) implements JSObject {
 }
 
 @JS()
+@anonymous
 extension type IframeAttributes._(JSObject _) implements JSObject {
   external CSSStyleDeclaration? get style;
 
@@ -39,6 +41,7 @@ extension type IframeAttributes._(JSObject _) implements JSObject {
 }
 
 @JS()
+@anonymous
 extension type IframeRestyleOptions._(JSObject _) implements JSObject {
   external bool? get setHideOnLeave;
 
@@ -46,6 +49,7 @@ extension type IframeRestyleOptions._(JSObject _) implements JSObject {
 }
 
 @JS()
+@anonymous
 extension type IframeEvent(JSObject _) implements JSObject {
   external String type;
 
@@ -53,6 +57,7 @@ extension type IframeEvent(JSObject _) implements JSObject {
 }
 
 @JS()
+@anonymous
 extension type IframeEventHandlerResponse._(JSObject _) implements JSObject {
   external String get status;
 
